@@ -1,7 +1,13 @@
 import app from "./app.js";
+import connectDB from "./config/db.js";
 
 // Define Port
 const serverPort = 3000
+
+
+// Connect Database
+
+connectDB();
 
 // Listen Port
 const server = app.listen(serverPort, () => {
