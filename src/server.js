@@ -1,41 +1,43 @@
 import app from "./app.js";
 import connectDB from "./config/db.js";
+import logger from "./config/logger.js";
 
-// Define Port
-const serverPort = 3000
+const serverPort = 3000; // Define port
 
-
-// Connect Database
-
+// connect database
 connectDB();
 
-// Listen Port
+// Listen port
 const server = app.listen(serverPort, () => {
-  console.log(`Server listening on port: ${serverPort}`)
-})
+  logger.info(`
+    #########################################
+     Server listening on port: ${serverPort}
+    #########################################
+  `)
+});
 
-const exitHanlder = () => {
+const exitHandler = () => {
   if (server) {
     server.close(() => {
-      console.info('Server closed')
-      process.exit(1)
-    })
+      console.info('Server closed');
+      process.exit(1);
+    });
   } else {
-    process.exit(1)
+    process.exit(1);
   }
-}
+};
 
 const unexpectedErrorHandler = (error) => {
-  console.error(error)
-  exitHanlder()
-}
+  console.error(error);
+  exitHandler();
+};
 
-process.on('uncaughtException', unexpectedErrorHandler)
-process.on('unhandledRejection', unexpectedErrorHandler)
+process.on('uncaughtException', unexpectedErrorHandler);
+process.on('unhandledRejection', unexpectedErrorHandler);
 
 process.on('SIGTERM', () => {
-  console.log('SIGTERM received')
+  console.log('SIGTERM received');
   if (server) {
-    server.close()
+    server.close();
   }
-})
+});

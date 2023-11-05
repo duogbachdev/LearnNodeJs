@@ -1,10 +1,10 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-// Connect Database
+// connect database
 const connectDB = async () => {
-  const DB = "mongodb://localhost:27017"
+  const DB = "mongodb://localhost:27017";
 
-  mongoose.set('autoIndex', true)
+  mongoose.set('autoIndex', true);
 
   const con = await mongoose.connect(DB, {
     useNewUrlParser: true,
@@ -12,26 +12,28 @@ const connectDB = async () => {
     autoIndex: true,
   })
 
-  console.log(`MongoDB Connected: ${con.connection.host}`)
+  console.log(`Mongodb Connected: ${con.connection.host}`);
 
-  mongoose.connection.on('Connecying', () => {
-    console.info('Connecting to Database')
-  })
-  mongoose.connection.on('Connected', () => {
-    console.info('Connected to Database')
-  })
-  mongoose.connection.on('Error', (error) => {
-    console.error(error.message)
-  })
-  mongoose.connection.on('Disconnected', () => {
-    console.info('Disconnected to Database')
-  })
+  mongoose.connection.on('connecting', () => {
+    console.info('Connecting to Database');
+  });
 
+  mongoose.connection.on('connected', () => {
+    console.info('Connected to Database');
+  });
+
+  mongoose.connection.on('error', (err) => {
+    console.error(err.message);
+  });
+
+  mongoose.connection.on('disconnected', () => {
+    console.info('Connection is disconnected');
+  });
 
   process.on('SIGINT', async () => {
-    await mongoose.connection.close()
-    process.exit(0)
-  })
-}
+    await mongoose.connection.close();
+    process.exit(0);
+  });
+};
 
-export default connectDB
+export default connectDB;
